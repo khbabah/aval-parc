@@ -28,19 +28,14 @@ fi
 APP_PORT=$(grep -E '^APP_PORT=' .env | cut -d= -f2 || true)
 APP_PORT=${APP_PORT:-8000}
 
-if ! grep -q '^APP_KEY=base64' .env; then
-  # NB : sans APP_KEY le conteneur app redémarre en boucle (startup.sh upstream),
-  # donc on génère la clé dans un conteneur éphémère plutôt que via `exec`.
-  echo ">>> Génération de la clé d'application (APP_KEY)..."
-  KEY=$(docker compose run --rm --no-deps -T app php artisan key:generate --show | tr -d '\r' | grep -o 'base64:.*')
-  sed -i.bak "s|^APP_KEY=.*|APP_KEY=${KEY}|" .env
-  rm -f .env.bak
-fi
-
 # Archive du code source, servie par l'application sur /source.tar.gz
-# (conformité AGPL-3.0 : le dépôt est privé, l'appli fournit donc elle-même
-# ses sources). Doit exister AVANT `up` : compose la monte en lecture seule,
-# et un bind-mount vers un fichier absent créerait un répertoire à la place.
+# (conformité AGPL-3.0 : l'appli fournit elle-même ses sources). Doit exister
+# AVANT TOUTE commande compose (y compris `run` pour l'APP_KEY) : compose la
+# monte en lecture seule, et un bind-mount vers un fichier absent ferait créer
+# un répertoire à sa place par Docker.
+if [ -d source.tar.gz ]; then
+  rmdir source.tar.gz 2>/dev/null || { echo "Erreur : source.tar.gz est un répertoire non vide — supprimez-le puis relancez." >&2; exit 1; }
+fi
 echo ">>> Génération de l'archive du code source (source.tar.gz, conformité AGPL)..."
 if git -C .. rev-parse >/dev/null 2>&1; then
   git -C .. archive --format=tar.gz -o deploy/source.tar.gz HEAD
@@ -59,6 +54,15 @@ fi
 if [ ! -s source.tar.gz ]; then
   echo "Erreur : la génération de source.tar.gz a échoué (fichier absent ou vide)." >&2
   exit 1
+fi
+
+if ! grep -q '^APP_KEY=base64' .env; then
+  # NB : sans APP_KEY le conteneur app redémarre en boucle (startup.sh upstream),
+  # donc on génère la clé dans un conteneur éphémère plutôt que via `exec`.
+  echo ">>> Génération de la clé d'application (APP_KEY)..."
+  KEY=$(docker compose run --rm --no-deps -T app php artisan key:generate --show | tr -d '\r' | grep -o 'base64:.*')
+  sed -i.bak "s|^APP_KEY=.*|APP_KEY=${KEY}|" .env
+  rm -f .env.bak
 fi
 
 # Pas de --build : hors-ligne, l'image est chargée via `docker load` (voir README) ;
