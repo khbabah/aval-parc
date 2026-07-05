@@ -4,6 +4,7 @@ namespace Database\Seeders\Aval;
 
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Rebranding Aval Parc via les settings natifs de Snipe-IT.
@@ -16,7 +17,6 @@ class AvalBrandingSeeder extends Seeder
         $settings = Setting::first() ?? new Setting;
 
         $settings->site_name = 'Aval Parc';
-        $settings->brand = 1; // 1 = texte seul; le client pourra téléverser un logo dans l'UI
         $settings->locale = 'fr-FR';
         $settings->default_currency = 'MRU';
         $settings->support_footer = 'off';
@@ -28,6 +28,14 @@ class AvalBrandingSeeder extends Seeder
         $settings->auto_increment_assets = $settings->auto_increment_assets ?? 1;
         $settings->pwd_secure_min = $settings->pwd_secure_min ?? '10';
         $settings->default_avatar = $settings->default_avatar ?? 'default.png';
+
+        // Logo et favicon officiels Aval Parc (à la manière du SettingsSeeder upstream :
+        // copie depuis public/img/... vers le disque local_public).
+        Storage::disk('local_public')->put('aval-logo.png', file_get_contents(public_path('img/aval/aval-logo.png')));
+        Storage::disk('local_public')->put('aval-favicon.png', file_get_contents(public_path('img/aval/aval-favicon.png')));
+        $settings->logo = 'aval-logo.png';
+        $settings->favicon = 'aval-favicon.png';
+        $settings->brand = 3; // 3 = logo + texte
 
         $settings->save();
     }

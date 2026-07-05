@@ -22,3 +22,9 @@ Premier déploiement : Centre National de Cardiologie, Nouakchott, Mauritanie.
 ## Tests
 
     php artisan test tests/Feature/Aval
+
+## Données de démonstration
+
+    php artisan db:seed --class="Database\Seeders\Aval\DemoSeeder" --force
+
+Attention : ne pas exécuter sur une base de production — ce seeder est réservé aux instances de démonstration (ex. avalparc.bsimr.com).
