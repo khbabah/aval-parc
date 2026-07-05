@@ -39,6 +39,10 @@ class AvalBrandingSeeder extends Seeder
         $settings->favicon = 'aval-favicon.png';
         $settings->brand = 3; // 3 = logo + texte
 
+        // Logo un peu plus grand sur la page de connexion (200px par défaut upstream).
+        // Ne jamais écraser un CSS déjà personnalisé par le client.
+        $settings->custom_css = $settings->custom_css ?: '#login-logo{max-width:260px}';
+
         $settings->save();
     }
 }
