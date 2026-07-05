@@ -28,3 +28,5 @@ Premier déploiement : Centre National de Cardiologie, Nouakchott, Mauritanie.
     php artisan db:seed --class="Database\Seeders\Aval\DemoSeeder" --force
 
 Attention : ne pas exécuter sur une base de production — ce seeder est réservé aux instances de démonstration (ex. avalparc.bsimr.com).
+
+Mot de passe des utilisateurs de démo : surchargeable via `AVAL_DEMO_PASSWORD` (sinon `DemoAval2026!` par défaut).

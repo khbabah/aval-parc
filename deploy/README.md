@@ -25,6 +25,21 @@
 3. `docker compose up -d app` puis restaurer storage :
    `gunzip -c backups/storage_<date>.tar.gz | docker compose exec -T app tar -xf - -C /`
 
+## Exposition publique (démo)
+
+Pour exposer l'instance sur Internet (ex. démo) derrière un reverse proxy TLS
+(nginx, Caddy, Traefik…), adapter `deploy/.env` :
+
+- `APP_URL=https://<domaine>` — domaine public en HTTPS.
+- `SECURE_COOKIES=true` — cookies marqués `Secure` (nécessite HTTPS).
+- `APP_FORCE_TLS=true` — force les liens générés en HTTPS.
+- `APP_TRUSTED_PROXIES=<IP du proxy ou réseau docker>` — sinon Snipe-IT ignore
+  les en-têtes `X-Forwarded-*` envoyés par le proxy (IP client, protocole erronés).
+- `ENABLE_HSTS=true` — impose HTTPS aux navigateurs (`Strict-Transport-Security`).
+
+Ne jamais exposer directement le port `APP_PORT` sans TLS devant : le login
+transiterait en clair.
+
 ## Mise à jour
 
 Toujours sauvegarder d'abord : `./backup.sh`

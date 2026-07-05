@@ -23,10 +23,19 @@ class AvalInstall extends Command
         if (! User::where('permissions->superuser', '1')->exists()) {
             $username = $this->option('admin-username');
             $email = $this->option('admin-email');
-            $password = $this->option('admin-password');
+            // Repli sur la variable d'environnement ADMIN_PASSWORD : install.sh
+            // l'exporte dans le conteneur plutôt que de la passer sur l'argv
+            // (visible dans `ps` sinon).
+            $password = $this->option('admin-password') ?: env('ADMIN_PASSWORD');
 
             if (! $username || ! $email || ! $password) {
-                $this->error('Aucun superadmin en base : fournir --admin-username, --admin-email et --admin-password.');
+                $this->error('Aucun superadmin en base : fournir --admin-username, --admin-email et --admin-password (ou la variable d\'environnement ADMIN_PASSWORD).');
+
+                return self::FAILURE;
+            }
+
+            if (strlen($password) < 10) {
+                $this->error('Le mot de passe du superadmin doit contenir au moins 10 caractères.');
 
                 return self::FAILURE;
             }

@@ -299,7 +299,7 @@ class DemoSeeder extends Seeder
                     'first_name' => $spec['first_name'],
                     'last_name' => $spec['last_name'],
                     'email' => $spec['username'].'@avalparc.mr',
-                    'password' => Hash::make('DemoAval2026!'),
+                    'password' => Hash::make(env('AVAL_DEMO_PASSWORD', 'DemoAval2026!')),
                     'activated' => 1,
                     'permissions' => '{}',
                     'created_by' => $admin->id,

@@ -21,7 +21,8 @@ services:
         condition: service_healthy
         restart: true
     env_file:
-      - .env
+      - path: .env
+        required: false
 
   db:
     image: mariadb:11.4.7
@@ -36,5 +37,6 @@ services:
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 5s
-      timeout: 1s
-      retries: 5
+      timeout: 5s
+      retries: 10
+      start_period: 60s
