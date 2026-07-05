@@ -21,7 +21,7 @@ class AvalBrandingSeederTest extends TestCase
         $this->assertEquals('Aval Parc', $settings->site_name);
         $this->assertEquals('fr-FR', $settings->locale);
         $this->assertEquals('MRU', $settings->default_currency);
-        $this->assertStringContainsString('github.com/Khbabah/aval-parc', $settings->footer_text);
+        $this->assertStringContainsString('/source.tar.gz', $settings->footer_text);
     }
 
     public function test_seeder_installs_official_logo_and_favicon()

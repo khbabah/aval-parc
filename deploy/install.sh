@@ -37,6 +37,30 @@ if ! grep -q '^APP_KEY=base64' .env; then
   rm -f .env.bak
 fi
 
+# Archive du code source, servie par l'application sur /source.tar.gz
+# (conformité AGPL-3.0 : le dépôt est privé, l'appli fournit donc elle-même
+# ses sources). Doit exister AVANT `up` : compose la monte en lecture seule,
+# et un bind-mount vers un fichier absent créerait un répertoire à la place.
+echo ">>> Génération de l'archive du code source (source.tar.gz, conformité AGPL)..."
+if git -C .. rev-parse >/dev/null 2>&1; then
+  git -C .. archive --format=tar.gz -o deploy/source.tar.gz HEAD
+else
+  # Copie du dépôt sans .git (ex. transfert USB) : archivage direct, en
+  # excluant secrets, sauvegardes et artefacts volumineux.
+  tar -czf source.tar.gz -C .. \
+    --exclude='.git' \
+    --exclude='deploy/.env*' \
+    --exclude='deploy/backups' \
+    --exclude='deploy/*.tar*' \
+    --exclude='node_modules' \
+    --exclude='vendor' \
+    .
+fi
+if [ ! -s source.tar.gz ]; then
+  echo "Erreur : la génération de source.tar.gz a échoué (fichier absent ou vide)." >&2
+  exit 1
+fi
+
 # Pas de --build : hors-ligne, l'image est chargée via `docker load` (voir README) ;
 # compose construit automatiquement si l'image est absente. Build explicite : export-images.sh.
 docker compose up -d

@@ -10,6 +10,9 @@
 4. Ouvrir `http://<ip-serveur>:8000`, se connecter, téléverser le logo
    (Paramètres → Image de marque).
 
+`install.sh` génère aussi `deploy/source.tar.gz` (archive du code source),
+servie par l'application sur `/source.tar.gz` — conformité AGPL-3.0 (dépôt privé).
+
 ## Sauvegardes
 
 - `./backup.sh` — base + fichiers dans `deploy/backups/`, rotation 14 jours.

@@ -14,6 +14,10 @@ services:
     restart: unless-stopped
     volumes:
       - storage:/var/lib/snipeit
+      # Archive du code source servie sur /source.tar.gz (conformité AGPL) —
+      # générée par install.sh AVANT le premier `up` ; docroot Apache :
+      # /var/www/html/public (docker/000-default.conf upstream).
+      - ./source.tar.gz:/var/www/html/public/source.tar.gz:ro
     ports:
       - "${APP_PORT:-8000}:80"
     depends_on:
@@ -21,8 +25,9 @@ services:
         condition: service_healthy
         restart: true
     env_file:
-      - path: .env
-        required: false
+      # Forme courte : compatible compose < 2.24 (serveurs cliniques anciens).
+      # export-images.sh crée un .env depuis .env.example si absent.
+      - .env
 
   db:
     image: mariadb:11.4.7

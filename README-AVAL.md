@@ -10,7 +10,9 @@ Premier déploiement : Centre National de Cardiologie, Nouakchott, Mauritanie.
 - **Installation :** `deploy/README.md`
 - **Mise à jour upstream :** `docs/MISE_A_JOUR_UPSTREAM.md`
 - **Licence :** AGPL-3.0 (voir `LICENSE`). Le code source complet de cette
-  version, modifications incluses, est disponible sur ce dépôt.
+  version, modifications incluses, est disponible sur ce dépôt et servi par
+  chaque instance déployée sur `/source.tar.gz` (archive générée par
+  `deploy/install.sh`, lien « Code source » du pied de page).
 
 ## Installation rapide (dev)
 

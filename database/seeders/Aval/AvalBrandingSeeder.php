@@ -21,7 +21,9 @@ class AvalBrandingSeeder extends Seeder
         $settings->default_currency = 'MRU';
         $settings->support_footer = 'off';
         $settings->version_footer = 'off';
-        $settings->footer_text = 'Aval Parc — basé sur [Snipe-IT](https://snipeitapp.com) (AGPL-3.0) · [Code source](https://github.com/Khbabah/aval-parc)';
+        // Lien relatif : l'archive est générée par deploy/install.sh et servie
+        // par l'application elle-même (conformité AGPL, dépôt privé).
+        $settings->footer_text = 'Aval Parc — basé sur [Snipe-IT](https://snipeitapp.com) (AGPL-3.0) · [Code source](/source.tar.gz)';
 
         // Valeurs minimales requises si la ligne n'existe pas encore (avant le setup web)
         $settings->per_page = $settings->per_page ?? 20;

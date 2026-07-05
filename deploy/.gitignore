@@ -2,3 +2,4 @@
 .env.bak
 backups/
 *.tar
+source.tar.gz
