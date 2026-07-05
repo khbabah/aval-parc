@@ -52,10 +52,16 @@ class CncSeedersTest extends TestCase
             $biomedical->fields->pluck('name')->all()
         );
 
-        $this->assertEquals('date', CustomField::where('name', 'Échéance assurance')->first()->format);
+        $this->assertEquals('DATE', CustomField::where('name', 'Échéance assurance')->first()->format);
         $this->assertStringContainsString('Critique', CustomField::where('name', 'Criticité clinique')->first()->field_values);
 
-        // Idempotence : 9 champs au total, pas 18
-        $this->assertEquals(9, CustomField::count());
+        // Idempotence : 9 champs semés, pas 18. (La migration upstream
+        // 2015_09_22_003413_migrate_mac_address crée déjà « MAC Address »,
+        // donc on compte uniquement les champs de ce seeder.)
+        $seeded = [
+            'Immatriculation', 'Kilométrage', 'Échéance assurance', 'Échéance vignette', 'Chauffeur affecté',
+            'Criticité clinique', 'Dernière calibration', 'Prochaine calibration', 'Contrat de maintenance',
+        ];
+        $this->assertEquals(9, CustomField::whereIn('name', $seeded)->count());
     }
 }
