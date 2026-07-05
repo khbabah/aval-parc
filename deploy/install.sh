@@ -27,12 +27,18 @@ fi
 
 APP_PORT=$(grep -E '^APP_PORT=' .env | cut -d= -f2 || true)
 APP_PORT=${APP_PORT:-8000}
+# APP_PORT peut être préfixé par une IP de bind (ex. « 127.0.0.1:8090 ») :
+# dans ce cas l'URL de test est l'adresse complète, sinon localhost:PORT.
+case "$APP_PORT" in
+  *:*) CURL_HOST="$APP_PORT" ;;
+  *)   CURL_HOST="localhost:${APP_PORT}" ;;
+esac
 
 # Archive du code source, servie par l'application sur /source.tar.gz
-# (conformité AGPL-3.0 : l'appli fournit elle-même ses sources). Doit exister
-# AVANT TOUTE commande compose (y compris `run` pour l'APP_KEY) : compose la
-# monte en lecture seule, et un bind-mount vers un fichier absent ferait créer
-# un répertoire à sa place par Docker.
+# (conformité AGPL-3.0 : l'appli offre ses sources à ses utilisateurs, quel que
+# soit l'hébergement du dépôt). Doit exister AVANT TOUTE commande compose
+# (y compris `run` pour l'APP_KEY) : compose la monte en lecture seule, et un
+# bind-mount vers un fichier absent ferait créer un répertoire à sa place.
 if [ -d source.tar.gz ]; then
   rmdir source.tar.gz 2>/dev/null || { echo "Erreur : source.tar.gz est un répertoire non vide — supprimez-le puis relancez." >&2; exit 1; }
 fi
@@ -72,7 +78,7 @@ docker compose up -d
 echo ">>> Attente de l'application (base de données, migrations, serveur web — max 300 s)..."
 ready=0
 for _ in $(seq 1 150); do
-  if curl -fs -o /dev/null "http://localhost:${APP_PORT}/login"; then
+  if curl -fs -o /dev/null "http://${CURL_HOST}/login"; then
     ready=1
     break
   fi
@@ -92,4 +98,4 @@ export ADMIN_PASSWORD
 docker compose exec -T -e ADMIN_PASSWORD -e ADMIN_USERNAME="$1" -e ADMIN_EMAIL="$2" app \
   sh -c 'php artisan aval:install --admin-username="$ADMIN_USERNAME" --admin-email="$ADMIN_EMAIL"'
 
-echo ">>> Aval Parc est prêt : http://localhost:${APP_PORT}"
+echo ">>> Aval Parc est prêt : http://${CURL_HOST}"
