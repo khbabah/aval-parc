@@ -39,7 +39,12 @@ return [
     // (« déployer » du matériel médical ne parle à personne : on AFFECTE un bien
     // à un service ou un agent, il est DISPONIBLE en réserve, INDISPONIBLE en
     // panne/maintenance, RETIRÉ en fin de vie.)
-    'general.list_all' => 'Tout le parc',
+    // Clé partagée entre les menus Actifs, Personnes, Rapports : rester neutre.
+    'general.list_all' => 'Tout lister',
+    // Sous-menu Personnes (chaînes restées en anglais dans le pack fr-FR)
+    'general.show_superadmins' => 'Superadmins',
+    'general.show_admins' => 'Administrateurs',
+    'general.deleted_users' => 'Utilisateurs supprimés',
     'general.deployed' => 'Affecté',
     'general.ready_to_deploy' => 'Disponible',
     'general.pending' => 'En attente',
