@@ -417,6 +417,11 @@ return [
         SamlServiceProvider::class,
         BreadcrumbsServiceProvider::class,
 
+        /*
+        * Aval Parc Service Providers... (patch upstream niveau 3, voir docs/UPSTREAM_PATCHES.md)
+        */
+        App\Providers\AvalServiceProvider::class,
+
     ],
 
     /*

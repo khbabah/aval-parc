@@ -21,9 +21,12 @@ class AvalBrandingSeeder extends Seeder
         $settings->default_currency = 'MRU';
         $settings->support_footer = 'off';
         $settings->version_footer = 'off';
-        // Lien relatif : l'archive est générée par deploy/install.sh et servie
-        // par l'application elle-même (conformité AGPL, dépôt privé).
-        $settings->footer_text = 'Aval Parc — basé sur [Snipe-IT](https://snipeitapp.com) (AGPL-3.0) · [Code source](/source.tar.gz)';
+        // Formats FR (Mauritanie) plutôt que les formats US par défaut de Snipe-IT.
+        $settings->date_display_format = 'd/m/Y';
+        $settings->time_display_format = 'H:i';
+        // Discret : le lien de l'archive AGPL §13 doit rester présent (dépôt privé),
+        // mais sans mention de marque tierce dans le pied de page client.
+        $settings->footer_text = 'Aval Parc · [Code source](/source.tar.gz)';
 
         // Valeurs minimales requises si la ligne n'existe pas encore (avant le setup web)
         $settings->per_page = $settings->per_page ?? 20;
@@ -39,9 +42,13 @@ class AvalBrandingSeeder extends Seeder
         $settings->favicon = 'aval-favicon.png';
         $settings->brand = 3; // 3 = logo + texte
 
-        // Logo un peu plus grand sur la page de connexion (200px par défaut upstream).
+        // Logo un peu plus grand sur la page de connexion (200px par défaut upstream)
+        // + masquage des icônes sociales Snipe-IT/Grokability codées en dur dans le
+        // pied de page upstream (resources/views/layouts/default.blade.php), qui ne
+        // doivent pas apparaître dans un produit rebrandé.
         // Ne jamais écraser un CSS déjà personnalisé par le client.
-        $settings->custom_css = $settings->custom_css ?: '#login-logo{max-width:260px}';
+        $settings->custom_css = $settings->custom_css ?: '#login-logo{max-width:260px}'
+            . '.footer-links a[href*="snipeitapp"],.footer-links a[href*="grokability"],.footer-links a[href*="discord"],.footer-links a[href*="bsky.app"],.footer-links a[href*="github.com"]{display:none}';
 
         $settings->save();
     }
