@@ -35,6 +35,18 @@ return [
     // --- Menu latéral ---
     'general.bulkaudit' => 'Audit groupé par scanner',
 
+    // --- Cycle de vie des biens : vocabulaire patrimoine plutôt que jargon IT ---
+    // (« déployer » du matériel médical ne parle à personne : on AFFECTE un bien
+    // à un service ou un agent, il est DISPONIBLE en réserve, INDISPONIBLE en
+    // panne/maintenance, RETIRÉ en fin de vie.)
+    'general.list_all' => 'Tout le parc',
+    'general.deployed' => 'Affecté',
+    'general.ready_to_deploy' => 'Disponible',
+    'general.pending' => 'En attente',
+    'general.undeployable' => 'Indisponible',
+    'general.archived' => 'Retiré',
+    'general.deploy' => 'Affecter',
+
     // --- Fiche actif (asset detail) ---
     'general.device_eol' => 'Fin de vie prévue',
     'general.add_note' => 'Ajouter une note au journal',
