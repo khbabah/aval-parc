@@ -39,7 +39,24 @@ return [
     // (« déployer » du matériel médical ne parle à personne : on AFFECTE un bien
     // à un service ou un agent, il est DISPONIBLE en réserve, INDISPONIBLE en
     // panne/maintenance, RETIRÉ en fin de vie.)
-    // Clé partagée entre les menus Actifs, Personnes, Rapports : rester neutre.
+    // --- Vocabulaire du patrimoine hospitalier mauritanien ---
+    // Aligné sur le registre réel des hôpitaux (colonnes de l'inventaire CHME :
+    // DESIGNATION / MARQUE / ORIGINE-DATE D'ACQUISITION / EMPLACEMENT / ETAT,
+    // document intitulé « INVENTAIRE DU PATRIMOINE »). Un don d'ONG ou une
+    // dotation du Ministère n'est pas un « fournisseur » : c'est une origine.
+    'general.asset' => 'Bien',
+    'general.assets' => 'Patrimoine',
+    'general.location' => 'Emplacement',
+    'general.locations' => 'Emplacements',
+    'general.manufacturer' => 'Marque',
+    'general.manufacturers' => 'Marques',
+    'general.supplier' => 'Origine',
+    'general.suppliers' => 'Origines',
+    'general.people' => 'Personnel',
+    'general.user' => 'Agent',
+    'general.users' => 'Personnel',
+
+    // Clé partagée entre les menus Patrimoine, Personnel, Rapports : rester neutre.
     'general.list_all' => 'Tout lister',
     // Sous-menu Personnes (chaînes restées en anglais dans le pack fr-FR)
     'general.show_superadmins' => 'Superadmins',
