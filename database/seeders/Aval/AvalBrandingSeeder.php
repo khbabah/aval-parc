@@ -38,6 +38,9 @@ class AvalBrandingSeeder extends Seeder
         // copie depuis public/img/... vers le disque local_public).
         Storage::disk('local_public')->put('aval-logo.png', file_get_contents(public_path('img/aval/aval-logo.png')));
         Storage::disk('local_public')->put('aval-favicon.png', file_get_contents(public_path('img/aval/aval-favicon.png')));
+        // Avatar par défaut : normalement copié par l'assistant web de Snipe-IT,
+        // que aval:install court-circuite — sans lui, 404 sur uploads/default.png.
+        Storage::disk('local_public')->put('default.png', file_get_contents(public_path('img/demo/avatars/default.png')));
         $settings->logo = 'aval-logo.png';
         $settings->favicon = 'aval-favicon.png';
         $settings->brand = 3; // 3 = logo + texte
