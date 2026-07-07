@@ -298,7 +298,8 @@
 
                             <x-well class="well-sm">
                                 <div class="well-display">
-                                    <x-data-row icon_type="maintenances" label="Active Maintenances" align="right">
+                                    {{-- Aval Parc (docs/UPSTREAM_PATCHES.md) : libellé codé en dur -> clé --}}
+                                    <x-data-row icon_type="maintenances" :label="trans('general.active_maintenances')" align="right">
                                         {{ $asset->maintenances()->active()->count() }}
                                     </x-data-row>
 

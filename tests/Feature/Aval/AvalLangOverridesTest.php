@@ -71,15 +71,53 @@ class AvalLangOverridesTest extends TestCase
         $this->assertEquals('Fichiers', trans('general.files'));
     }
 
+    public function test_new_keys_are_available_in_both_locales()
+    {
+        // Clés NOUVELLES (absentes du pack upstream) introduites par les
+        // micro-patchs de vues (docs/UPSTREAM_PATCHES.md) : elles doivent être
+        // résolues dans les DEUX locales, jamais affichées comme clé brute.
+        $this->assertEquals('Maintenances en cours', trans('general.active_maintenances'));
+        $this->assertEquals('Catégories de biens', trans('general.asset_categories'));
+        $this->assertEquals('Disponible', trans('general.deployable'));
+
+        App::setLocale('en-US');
+
+        $this->assertEquals('Active Maintenances', trans('general.active_maintenances'));
+        $this->assertEquals('Asset Categories', trans('general.asset_categories'));
+        $this->assertEquals('Deployable', trans('general.deployable'));
+
+        // L'injection en-US ne doit pas effacer le reste du groupe general
+        // (même piège Translator::load()/addLines() que pour le fr-FR).
+        $this->assertEquals('Assets', trans('general.assets'));
+    }
+
+    public function test_status_meta_values_all_resolve_to_translations()
+    {
+        // Le badge de metastatut (blade/info-element/status.blade.php) affiche
+        // désormais trans('general.' . statusMeta) : chaque valeur possible de
+        // Statuslabel::getStatuslabelType() + 'deployed' doit avoir une clé
+        // dans les deux locales.
+        foreach (['fr-FR', 'en-US'] as $locale) {
+            App::setLocale($locale);
+
+            foreach (['deployed', 'pending', 'undeployable', 'archived', 'deployable'] as $meta) {
+                $this->assertNotEquals('general.'.$meta, trans('general.'.$meta), "general.$meta non résolue en $locale");
+                $this->assertNotEmpty(trans('general.'.$meta));
+            }
+        }
+    }
+
     public function test_missing_overrides_file_is_a_silent_noop()
     {
         $provider = new AvalServiceProvider($this->app);
 
-        $reflection = new \ReflectionProperty($provider, 'overridesPath');
-        $reflection->setAccessible(true);
-        $reflection->setValue($provider, 'Aval/lang/does-not-exist.php');
+        foreach (['overridesPath', 'additionsPath'] as $property) {
+            $reflection = new \ReflectionProperty($provider, $property);
+            $reflection->setAccessible(true);
+            $reflection->setValue($provider, 'Aval/lang/does-not-exist.php');
+        }
 
-        // Ne doit lancer aucune exception, même si le fichier est absent.
+        // Ne doit lancer aucune exception, même si les fichiers sont absents.
         $provider->boot();
 
         $this->assertTrue(true);

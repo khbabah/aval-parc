@@ -20,6 +20,15 @@ class AvalServiceProvider extends ServiceProvider
 
     protected string $overridesLocale = 'fr-FR';
 
+    /**
+     * Clés NOUVELLES (absentes du pack upstream), introduites par les
+     * micro-patchs de vues (docs/UPSTREAM_PATCHES.md) : injectées aussi en
+     * en-US pour qu'aucune locale n'affiche de clé brute.
+     */
+    protected string $additionsPath = 'Aval/lang/additions-en.php';
+
+    protected string $additionsLocale = 'en-US';
+
     public function register(): void
     {
         //
@@ -27,7 +36,13 @@ class AvalServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $path = app_path($this->overridesPath);
+        $this->applyLines($this->additionsPath, $this->additionsLocale);
+        $this->applyLines($this->overridesPath, $this->overridesLocale);
+    }
+
+    protected function applyLines(string $relativePath, string $locale): void
+    {
+        $path = app_path($relativePath);
 
         if (! is_file($path)) {
             return;
@@ -47,7 +62,7 @@ class AvalServiceProvider extends ServiceProvider
         // directement dans le cache interne des traductions déjà chargées ; si un
         // groupe n'a encore JAMAIS été chargé, Translator::load() écraserait plus
         // tard tout le groupe avec pour seul contenu nos quelques clés de
-        // substitution, faisant disparaître le reste du pack fr-FR pour ce
+        // substitution, faisant disparaître le reste du pack de langue pour ce
         // groupe. On force donc le chargement complet de chaque groupe concerné
         // AVANT d'ajouter nos lignes, afin que celles-ci viennent simplement
         // remplacer des clés existantes sans rien effacer d'autre.
@@ -59,9 +74,9 @@ class AvalServiceProvider extends ServiceProvider
         }
 
         foreach (array_keys($groups) as $group) {
-            $translator->load('*', $group, $this->overridesLocale);
+            $translator->load('*', $group, $locale);
         }
 
-        Lang::addLines($lines, $this->overridesLocale);
+        Lang::addLines($lines, $locale);
     }
 }

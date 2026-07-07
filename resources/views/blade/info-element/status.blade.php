@@ -31,7 +31,8 @@
         @endif
         <a href="{{ route('statuslabels.show', $infoObject->status->id) }}">
             {{ $infoObject->status->name }}</a>
-        <label class="label label-default">{{ $infoObject->present()->statusMeta }}</label>
+        {{-- Aval Parc (docs/UPSTREAM_PATCHES.md) : statusMeta brut -> traduit --}}
+        <label class="label label-default">{{ trans('general.' . $infoObject->present()->statusMeta) }}</label>
 
     @endif
 @endif

@@ -426,7 +426,8 @@
         <!-- Categories -->
         <div class="box box-default">
             <div class="box-header with-border">
-                <h2 class="box-title">{{ trans('general.asset') }} {{ trans('general.categories') }}</h2>
+                {{-- Aval Parc (docs/UPSTREAM_PATCHES.md) : composition figée -> clé unique --}}
+                <h2 class="box-title">{{ trans('general.asset_categories') }}</h2>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
                         <x-icon type="minus" />

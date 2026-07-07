@@ -142,4 +142,15 @@ return [
     // peut donc pas être renommé "Fichiers du bien" sans devenir faux ailleurs).
     'general.additional_files' => 'Fichiers du modèle',
 
+    // --- Clés NOUVELLES introduites par les micro-patchs de vues ---
+    // (valeurs en-US correspondantes dans additions-en.php, injectées par le
+    // provider ; cf. docs/UPSTREAM_PATCHES.md)
+    'general.active_maintenances' => 'Maintenances en cours',
+    'general.asset_categories' => 'Catégories de biens',
+    // Badge de metastatut de la fiche du bien (status.blade.php) : la valeur
+    // brute de statusMeta passe désormais par trans('general.<valeur>') ;
+    // 'deployable' n'existait dans aucun pack. Aligné sur le cycle de vie
+    // ci-dessus (deployed=Affecté, undeployable=Indisponible, archived=Retiré).
+    'general.deployable' => 'Disponible',
+
 ];
