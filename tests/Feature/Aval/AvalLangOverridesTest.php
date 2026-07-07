@@ -53,6 +53,24 @@ class AvalLangOverridesTest extends TestCase
         $this->assertEquals('Déployable', trans('admin/hardware/general.deployable'));
     }
 
+    public function test_asset_view_hospital_labels_are_overridden()
+    {
+        $this->assertEquals('N° de modèle', trans('general.model_no'));
+        $this->assertEquals('Modifié', trans('general.updated_plain'));
+        $this->assertEquals('Mis à jour le', trans('general.updated_at'));
+        $this->assertEquals('Dernier pointage d\'inventaire', trans('general.last_audit'));
+        $this->assertEquals('Prochain pointage d\'inventaire', trans('general.next_audit_date'));
+        $this->assertEquals('Emplacement de rattachement', trans('admin/hardware/form.default_location'));
+        $this->assertEquals('Affectations', trans('general.checkouts_count'));
+        $this->assertEquals('Retours', trans('general.checkins_count'));
+        $this->assertEquals('Fichiers du modèle', trans('general.additional_files'));
+
+        // 'general.files' est partagé avec toutes les autres fiches (licences,
+        // utilisateurs...) : il ne doit surtout pas être renommé "Fichiers du
+        // bien", ce qui serait faux ailleurs. On vérifie qu'il reste intact.
+        $this->assertEquals('Fichiers', trans('general.files'));
+    }
+
     public function test_missing_overrides_file_is_a_silent_noop()
     {
         $provider = new AvalServiceProvider($this->app);

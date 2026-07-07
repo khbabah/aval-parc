@@ -120,4 +120,26 @@ return [
     'admin/hardware/form.checkin_licenses' => 'Retourner les sièges de licence associés',
     'admin/hardware/form.checkin_child_assets' => 'Retourner les actifs associés',
 
+    // --- Fiche du bien (audit CHME, encadré coûts/compteurs, colonne droite) ---
+    // Le pack fr-FR laisse "Model n°." (mélange anglais/français), "Updated"
+    // non traduit, et les dates d'audit dans un jargon logiciel : on aligne sur
+    // le vocabulaire de pointage d'inventaire utilisé à l'hôpital.
+    'general.model_no' => 'N° de modèle',
+    'general.updated_plain' => 'Modifié',
+    'general.updated_at' => 'Mis à jour le',
+    'general.last_audit' => 'Dernier pointage d\'inventaire',
+    'general.next_audit_date' => 'Prochain pointage d\'inventaire',
+    'admin/hardware/form.default_location' => 'Emplacement de rattachement',
+    // Compteurs d'activité (encadré sous les coûts) : "Associations/Dissociations"
+    // est du jargon Snipe-IT ; on parle d'affectations et de retours de matériel.
+    // "Demandes" (réservations en ligne, module non utilisé au CHME) est masquée
+    // par CSS d'instance plutôt que renommée.
+    'general.checkouts_count' => 'Affectations',
+    'general.checkins_count' => 'Retours',
+    // Fichiers du bien vs fichiers hérités du modèle : seule "Fichiers
+    // additionnels" a une clé propre à cet usage (general.files est partagé
+    // avec toutes les autres fiches - actifs, licences, utilisateurs... - et ne
+    // peut donc pas être renommé "Fichiers du bien" sans devenir faux ailleurs).
+    'general.additional_files' => 'Fichiers du modèle',
+
 ];
