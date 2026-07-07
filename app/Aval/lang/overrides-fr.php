@@ -106,6 +106,16 @@ return [
 
     // --- Maintenances ---
     'general.maintenance_complete' => 'Maintenance terminée',
+    // Formulaire de maintenance : reliquats anglais du pack fr-FR.
+    'admin/maintenances/form.completion_date' => 'Date de fin',
+    'admin/maintenances/form.responsible_party' => 'Intervenant',
+    'admin/maintenances/form.completed_at' => 'Terminée le',
+    'admin/maintenances/form.completed_by' => 'Terminée par',
+    'admin/maintenances/form.mark_complete' => 'Marquer comme terminée',
+    'admin/maintenances/form.already_complete' => 'Déjà terminée',
+
+    // --- Audit groupé par scanner ---
+    'general.audit_by_field' => 'Champ scanné',
 
     // --- Thème clair/sombre (barre de navigation, toujours visible) ---
     'general.light_mode' => 'Mode clair',
