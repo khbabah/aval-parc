@@ -114,6 +114,11 @@ return [
     'admin/maintenances/form.mark_complete' => 'Marquer comme terminée',
     'admin/maintenances/form.already_complete' => 'Déjà terminée',
 
+    // --- Marchés publics : le « n° de commande » natif porte le n° de marché ---
+    // (demande expert CNC : rattacher chaque bien à son marché d'acquisition)
+    'admin/hardware/form.order' => 'N° de marché / bon de commande',
+    'general.order_number' => 'N° de marché / commande',
+
     // --- Audit groupé par scanner ---
     'general.audit_by_field' => 'Champ scanné',
 
