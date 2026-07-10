@@ -14,6 +14,19 @@ Premier déploiement : Centre National de Cardiologie, Nouakchott, Mauritanie.
   chaque instance déployée sur `/source.tar.gz` (archive générée par
   `deploy/install.sh`, lien « Code source » du pied de page).
 
+## Structure de la couche Aval (aucun fichier upstream modifié, sauf registre)
+
+| Chemin | Rôle |
+|---|---|
+| `app/Aval/lang/` | surcharges de traduction FR + clés ajoutées (vocabulaire patrimoine hospitalier) |
+| `app/Providers/AvalServiceProvider.php` | charge les surcharges de langue |
+| `app/Console/Commands/Aval/` | `php artisan aval:install` (migrations + superadmin + config) |
+| `database/seeders/Aval/` | branding, catégories/statuts/champs santé, données de démo |
+| `deploy/` | production Docker hors-ligne (install, backup/restore, export USB) |
+| `docs/UPSTREAM_PATCHES.md` | registre des rares fichiers upstream patchés (4, une ligne chacun) |
+| `docs/MISE_A_JOUR_UPSTREAM.md` | procédure de merge des releases Snipe-IT |
+| `tests/Feature/Aval/` | tests de la couche Aval (`php artisan test tests/Feature/Aval`) |
+
 ## Installation rapide (dev)
 
     composer install
