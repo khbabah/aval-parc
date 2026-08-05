@@ -72,6 +72,8 @@ return [
     // à personne — vocabulaire des guides : Affecter / Rendre.
     'general.checkout' => 'Affecter',
     'general.checkin' => 'Rendre',
+    'admin/hardware/general.checkout' => 'Affecter un bien',
+    'admin/hardware/general.checkin' => 'Rendre un bien',
 
     // --- Fiche actif (asset detail) ---
     'general.device_eol' => 'Fin de vie prévue',
