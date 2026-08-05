@@ -11,7 +11,8 @@
    (Paramètres → Image de marque).
 
 `install.sh` génère aussi `deploy/source.tar.gz` (archive du code source),
-servie par l'application sur `/source.tar.gz` — conformité AGPL-3.0 (dépôt privé).
+servie par l'application sur `/source.tar.gz` — conformité AGPL-3.0, quel que soit
+l'accès réseau de l'instance (le code est aussi public : github.com/khbabah/aval-parc).
 
 ## Sauvegardes
 

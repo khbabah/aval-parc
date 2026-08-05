@@ -2,6 +2,29 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Aval Parc — THE FORK RULES (read first)
+
+This repo is **Aval Parc**, a tracking fork of Snipe-IT v8.6.3 for healthcare
+asset management (BSIMR, Nouakchott). Product overview: `README-AVAL.md`.
+
+- **Never modify upstream files.** All Aval code lives in: `app/Aval/`,
+  `app/Providers/AvalServiceProvider.php`, `app/Console/Commands/Aval/`,
+  `database/seeders/Aval/`, `deploy/`, `demo-autopilot/`, `tests/Feature/Aval/`.
+- The ONLY exceptions are registered in `docs/UPSTREAM_PATCHES.md` (one entry
+  per patched upstream file, with its re-verification procedure). Any new
+  upstream patch MUST be added there — it is the merge-survival contract.
+- French UI strings are overridden via `app/Aval/lang/overrides-fr.php`
+  (new keys also need `additions-en.php`); never edit `resources/lang/**`.
+- Seeders must stay idempotent (firstOrCreate, never truncate) — they run on
+  production databases. `DemoSeeder` is demo-only, never called by `aval:install`.
+- Upstream sync procedure: `docs/MISE_A_JOUR_UPSTREAM.md` (merge tagged
+  releases only, into `main`; `upstream-master` mirrors Snipe-IT).
+- Aval test suite: `php artisan test tests/Feature/Aval` — must stay green.
+- Demo video autopilot: `demo-autopilot/` (`npm test` fast run; beware: the
+  upstream sqlite connection hardcodes `database/database.sqlite`).
+- Client-specific data/pipelines live in the PRIVATE repo `aval-parc-clients`
+  — never commit client data (inventories, logos, names) here: this repo is public.
+
 ## Stack
 
 - **PHP 8.2+** / **Laravel 12** (framework), **Laravel Mix** (webpack) for frontend assets
