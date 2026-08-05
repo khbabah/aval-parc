@@ -1,0 +1,12 @@
+{
+  "name": "aval-parc-demo-autopilot",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "SPEED=0.1 HEADLESS=1 SHOTS=1 node autopilot.mjs",
+    "video": "VIDEO=1 HEADLESS=1 node autopilot.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.0"
+  }
+}
