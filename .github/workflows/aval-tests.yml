@@ -1,0 +1,42 @@
+# CI de la couche Aval — filet de sécurité du fork suiveur.
+# Tourne à chaque push/PR : si un merge upstream ou une modification casse les
+# seeders, aval:install ou les surcharges de langue, la croix rouge le dit
+# avant qu'une instance client ne le découvre.
+name: Tests Aval
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  aval:
+    name: tests-aval
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: gd, pdo_sqlite, sqlite3, zip, bcmath
+          coverage: none
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - name: Dépendances
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Environnement de test (sqlite in-memory)
+        run: |
+          cp .env.testing.example .env.testing
+          sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=sqlite_testing/' .env.testing
+
+      - name: Suite Aval
+        run: php artisan test tests/Feature/Aval --stop-on-failure
