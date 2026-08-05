@@ -68,6 +68,10 @@ return [
     'general.undeployable' => 'Indisponible',
     'general.archived' => 'Retiré',
     'general.deploy' => 'Affecter',
+    // Boutons d'affectation/retour : « Associer/Dissocier » upstream ne parle
+    // à personne — vocabulaire des guides : Affecter / Rendre.
+    'general.checkout' => 'Affecter',
+    'general.checkin' => 'Rendre',
 
     // --- Fiche actif (asset detail) ---
     'general.device_eol' => 'Fin de vie prévue',

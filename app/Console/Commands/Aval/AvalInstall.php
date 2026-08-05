@@ -49,6 +49,7 @@ class AvalInstall extends Command
                 'activated' => 1,
             ]);
             $user->permissions = '{"superuser":"1"}';
+            $user->locale = 'fr-FR';
             $user->save();
             $this->info("Superadmin « {$username} » créé.");
         } else {
