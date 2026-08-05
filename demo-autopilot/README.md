@@ -47,16 +47,28 @@ VIDEO=1 HEADLESS=1 node autopilot.mjs                # ou: npm run video
    l'onglet filmé ; en mode vidéo, `window.open` est intercepté vers une
    surimpression `<embed>`.
 
-## Scénario (11 actes, ≈ 3 min 45 à SPEED=1)
+## Scénario (version formation — 16 actes, ≈ 6 min à SPEED=1)
 
-Ouverture → Connexion → Tableau de bord → Retrouver un bien (recherche par
-étiquette) → Panne & réparation (clôture d'une maintenance) → Affectation
-(select2 agent) → Pointage d'inventaire (+ mode scanner) → Étiquettes →
-Rapport Direction → Diapositive déploiement → Conclusion/contact.
+**Partie 1 — Comprendre** : connexion · tableau de bord expliqué tuile par tuile ·
+la fiche d'un bien décortiquée (cartes-concept « Modèle ≠ Bien » et « Statut ≠ État
+général », emplacement de rattachement, onglets, QR) · les trois cibles d'affectation
+(agent / emplacement / autre bien, avec l'exemple réel du moniteur embarqué dans
+l'ambulance).
 
-Le scénario vit dans `autopilot.mjs` : une fonction par acte (`acte0_…` à
-`acte10_…`) — ajouter/retirer un acte = ajouter/retirer une fonction dans la
-liste `ACTES`.
+**Partie 2 — Les gestes du quotidien** : créer un bien de A à Z (modèle, étiquette
+auto, n° de marché) · déclarer une panne (et le garde-fou Indisponible) · clôturer
+une réparation (date + coût) · affecter/rendre avec preuve dans l'Historique ·
+consommables, accessoires et pièces détachées.
+
+**Partie 3 — Inventaire & pilotage** : étiquettes · pointage d'inventaire (carte-
+concept « l'inventaire change de nature », audit individuel, audit groupé au
+scanner, l'écart « Dû pour l'audit ») · rapports personnalisé et d'activité ·
+profils utilisateurs · déploiement · contact.
+
+Mécanismes pédagogiques : `focus()` surligne d'un halo vert l'élément commenté ;
+`concept()` affiche une carte de notion par-dessus l'écran ; les sous-titres durent
+proportionnellement à leur longueur. Une fonction par acte dans `autopilot.mjs` —
+ajouter/retirer un acte = modifier la liste `ACTES`.
 
 ## Dépannage
 
